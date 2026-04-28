@@ -1,12 +1,15 @@
-export class ProductPage{
-    constructor(page){
-        this.page= page;
-        this.producName = page.locator('[data-test="product-name"]');
-        this.cartBage = page.locator('[data-test="cart-quantity"]');
-        this.addToCartButton = page.locator('[data-test="add-to-cart"]');
+import { BasePage } from '../framework/base/base.page';
+
+export class ProductPage extends BasePage {
+    constructor(page) {
+        super(page);
+
+        this.productName = page.locator('[data-test="product-name"]');
+        this.addToCartBtn = page.locator('[data-test="add-to-cart"]');
+        this.cartBadge = page.locator('[data-test="cart-quantity"]');
     }
 
-    async addToCart(){
-        await this.addToCartButton.click();
+    async addToCart() {
+        await this.click(this.addToCartBtn);
     }
 }

@@ -1,15 +1,19 @@
-export class HomePage {
+import { BasePage } from "../framework/base/base.page";
+
+export class HomePage extends BasePage {
     constructor(page) {
-        this.page = page;
+        super(page);
+
+        // Search
         this.searchInput = page.locator('#search-query');
         this.searchButton = page.locator('[data-test="search-submit"]');
+        this.searchComplete = page.locator('[data-test="search_completed"]');
+        this.searchProductCards = page.locator('[data-test="search_completed"] .card');
 
-        this.categoryCheckboxes = page.locator('input[name="category_id"]');
+        // Filter
+        this.handToolCheckbox = page.locator('input[name="category_id"]').first();
         this.filterComplete = page.locator('[data-test="filter_completed"]');
-        this.filterProductCards = page.locator('[data-test="filter_completed"]');
-
-        this.searchComplete = page.locator('[data-test="search_completed"]')
-        this.searchProductCards = page.locator('[data-test="search_completed"] a.card')
+        this.filterProductCards = page.locator('[data-test="filter_completed"] .card');
     }
 
     async openPage() {
@@ -17,19 +21,22 @@ export class HomePage {
     }
 
     async search(product) {
-        await this.searchInput.fill(product);
-        await this.searchButton.click();
+        await this.type(this.searchInput, product);
+        await this.click(this.searchButton);
+
+        await this.searchComplete.waitFor();
     }
 
-    async filterHandTool() {
-        await this.categoryCheckboxes.first().check();
+    async filterByHandTools() {
+        await this.handToolCheckbox.check();
+        await this.filterComplete.waitFor();
     }
 
     async selectFirstSearchProduct() {
         await this.searchProductCards.first().click();
     }
 
-    async selectFirstFilterProduct(){
-        await this.filterProductCards.first().click()
+    async selectFirstFilterProduct() {
+        await this.filterProductCards.first().click();
     }
 }
