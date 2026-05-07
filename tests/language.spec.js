@@ -1,8 +1,7 @@
-import { test, expect } from '../framework/fixtures/baseTest';
+import { test, expect } from "../framework/fixtures/baseTest";
 
-test('Change Language ', async ({ header, page }) => {
+test("Change Language ", async ({ header, page }) => {
+  await header.changeLanguage("es");
 
-    await header.changeLanguage('es');
-
-    await expect(page.locator('text=Inicio')).toBeVisible();
+  await expect(page.locator("text=Inicio")).toBeVisible();
 });

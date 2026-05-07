@@ -1,16 +1,14 @@
-import { test, expect } from '../framework/fixtures/baseTest';
+import { test, expect } from "../framework/fixtures/baseTest";
 
+test("Add product to cart", async ({ homePage, productPage }) => {
+  await homePage.search("Hammer");
+  await expect(homePage.searchComplete).toBeVisible();
+  await expect(homePage.searchProductCards.first()).toBeVisible();
 
-test('Add product to cart', async ({ homePage, productPage }) => {
+  await homePage.selectFirstSearchProduct();
+  await expect(productPage.productName).toBeVisible();
 
-    await homePage.search('Hammer');
-    await expect(homePage.searchComplete).toBeVisible();
-    await expect(homePage.searchProductCards.first()).toBeVisible()
+  await productPage.addToCart();
 
-    await homePage.selectFirstSearchProduct();
-    await expect(productPage.productName).toBeVisible();
-
-    await productPage.addToCart();
-
-    await expect(productPage.cartBadge).toHaveText('1');
-})
+  await expect(productPage.cartBadge).toHaveText("1");
+});
